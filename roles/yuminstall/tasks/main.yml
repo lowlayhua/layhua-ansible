@@ -1,0 +1,19 @@
+---
+# tasks file for yuminstall
+#
+- name: install common packages
+  yum: name={{ item }} state=latest state=present
+  tags: yum_pkgs
+  with_items:
+  - telnet
+  - wget
+  - vim
+  - postfix
+
+- name: install JDK
+  yum: name=http://pe3-masterl1.app.vic/ds/jdk-8u112-linux-x64.rpm state=present
+  tags: jdk
+
+- name: install tmux
+  yum: name=http://pe3-masterl1.app.vic/ds/tmux-1.8-4.el7.x86_64.rpm state=present
+  tags: tmux

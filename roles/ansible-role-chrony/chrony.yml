@@ -1,0 +1,14 @@
+#!/usr/bin/env ansible-playbook
+# This playbook is installed for SAS OS prerequisites
+# layhua
+# 15 June 2016
+---
+- hosts: kickstart1
+  gather_facts: false
+  remote_user: layhua
+  become: yes
+
+  roles:
+    - role: ansible-role-chrony
+      chrony_config_server:
+        - ntp2.singnet.com.sg

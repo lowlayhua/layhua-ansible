@@ -1,0 +1,4 @@
+
+- user: name={{ item }} comment={{ item }} groups=users
+  with_items:
+  - "{{ users }}"

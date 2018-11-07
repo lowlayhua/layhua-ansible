@@ -1,0 +1,9 @@
+---
+- file: path=/admin state=directory mode=0755
+- copy: src=diskspace.sh dest=/admin/diskspace.sh owner=root group=root mode=0755 backup=yes
+- cron:
+    name: "Configure Disk space alerts script"
+    minute: "0"
+    hour: "8-20"
+    job: "/admin/diskspace.sh > /dev/null"
+    user: ec2-user

@@ -1,0 +1,5 @@
+---
+
+- name: Start the networker service
+  service: name=networker state=started enabled=yes
+  tags: networker

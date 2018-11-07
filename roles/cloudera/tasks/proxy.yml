@@ -1,0 +1,11 @@
+  - name: Configure the proxy.
+    lineinfile:
+      dest: /etc/bashrc
+      regexp: "{{ item.regexp }}"
+      line: "{{ item.line }}"
+      state: present
+    with_items:
+      - regexp: "^export http_proxy="
+        line: "export http_proxy=http://10.44.46.47/"
+      - regexp: "^export https_proxy="
+        line: "export https_proxy=http://10.44.46.47/"

@@ -1,0 +1,11 @@
+---
+# defaults file for useradd
+#
+sysadmin:
+ - layhua
+ - anduslim
+
+#users:
+# - dsuser
+# - dataspark
+# - yueheng

@@ -1,0 +1,16 @@
+---
+# tasks file for soe
+# Gather Server  information
+#
+# OS configuration 
+- file: path=/admin state=directory mode=0755
+- copy: src=format-hdd.sh dest=/admin/format-hdd.sh owner=layhua group=layhua mode=0755
+- copy: src=ntp.conf dest=/etc/ntp.conf owner=root group=root mode=0755
+- command: /usr/bin/timedatectl set-timezone Asia/Singapore
+- copy: src=bashlog.sh dest=/etc/profile.d/bashlog.sh owner=root group=root mode=0755
+- copy: src=bashrc dest=/etc/bashrc owner=root group=root mode=0755 backup=yes
+- copy: src=findlarge.sh dest=/admin/findlarge.sh owner=root group=root mode=0755
+- copy: src=r.sh dest=/admin/r.sh owner=root group=root mode=0755
+#- command: /admin/r.sh
+- include: gather_info.yml
+

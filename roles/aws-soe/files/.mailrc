@@ -1,0 +1,8 @@
+set smtp-use-starttls
+set ssl-verify=ignore
+set nss-config-dir=$HOME/.certs
+set smtp=smtp://email-smtp.us-east-1.amazonaws.com:587
+set smtp-auth=login
+set smtp-auth-user=AKIAJVEC4FAYQ6CFE55Q
+set smtp-auth-password=Av7INejchjgomfBXhrIz8IChcAYVCCvAcww9sPiyuWXn
+set from="layhua@singtel.com"

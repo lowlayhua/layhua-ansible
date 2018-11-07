@@ -1,0 +1,20 @@
+---
+# tasks file for common
+#
+#- copy: src=jdk-8u112-linux-x64.rpm dest=/tmp/jdk-8u112-linux-x64.rpm mode=0755
+#- yum: name=/tmp/jdk-8u112-linux-x64.rpm
+
+# command: "wget -q -O {{java_archive}} --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' {{download_url}} creates={{java_archive}}"
+- copy: src=/var/www/html/ds/Anaconda2-4.0.0-Linux-x86_64.sh dest=/tmp/Anaconda2-4.0.0-Linux-x86_64.sh mode=0755
+- name: install anaconda2
+  command: /tmp/Anaconda2-4.0.0-Linux-x86_64.sh -b -p /var/anaconda2
+  tags: anaconda2
+
+- name: upgrade all packages
+  yum: name=* state=latest
+  tags: yum_update
+
+- name: install JDK
+  yum: name=http://pe3-masterl1.app.vic/ds/jdk-8u112-linux-x64.rpm state=present
+  tags: jdk
+

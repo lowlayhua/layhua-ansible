@@ -1,0 +1,13 @@
+
+- user: name={{ duserid }} comment={{ duserid }} groups=users
+- authorized_key: user={{ duserid }} key="{{ lookup('file', '~/ansible/files/{{ duserid }}.pub') }}"
+
+- name: create HDFS directory for duserid
+  command: hadoop fs -mkdir /user/"{{ duserid }}"
+  become: true
+  become_user: hdfs
+    
+- name: Define owner of the hadoop directory for duserid
+  command: hadoop fs -chown "{{ duserid }}" /user/"{{ duserid }}"
+  become: true
+  become_user: hdfs

@@ -1,0 +1,9 @@
+---
+# tasks file for soe
+# Gather Server  information
+#
+# # create a directory if it doesn't exist
+- file: path=/admin state=directory mode=0755
+- copy: src=Rhel6_html_DataSpark.sh dest=/admin/Rhel6_html_DataSpark.sh owner=layhua group=layhua mode=0755
+- command: /admin/Rhel6_html_DataSpark.sh
+- fetch: src=/tmp/SYSINFO.html dest=sysinfo

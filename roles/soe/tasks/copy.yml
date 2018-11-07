@@ -1,0 +1,16 @@
+---
+# tasks file for soe
+- file: path=/admin state=directory mode=0755
+
+- copy: src=bashrc dest=/etc/bashrc owner=root group=root mode=0755 backup=yes
+
+- file: src=/tmp/{{ item.src }} dest={{ item.dest }} owner=root group=root mode=0755
+  with_items:
+    - { src: 'bashlog.sh', dest: '/etc/profile.d/bashlog.sh' }
+    - { src: 'bashrc', dest: '/etc/bashrc' }
+    - { src: 'findlarge.sh', dest: '/admin/findlarge.sh' }
+    - { src: 'main.cf', dest: '/etc/postfix/main.cf' }
+
+#- command: /admin/r.sh
+- include: gather_info.yml
+

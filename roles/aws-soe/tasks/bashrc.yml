@@ -1,0 +1,6 @@
+- name: history for bashrc
+  blockinfile:
+    path: /etc/bashrc
+    block: |
+      HISTTIMEFORMAT="%F %T "
+      export HISTTIMEFORMAT

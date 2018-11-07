@@ -1,0 +1,23 @@
+---
+# tasks file for Standard Operating Environment
+- name: Create /admin directory
+  file: path=/admin state=directory mode=0755
+
+- name: Configure AWS Simple Email Service
+  copy: src=.mailrc dest=/home/ec2-user owner=ec2-user group=ec2-user mode=0755 backup=yes
+
+- name: Configure History in bashrc
+  copy: src=bashrc dest=/etc/bashrc owner=root group=root mode=0755 backup=yes
+
+- name: Configure detail logging in /var/log/secure
+  copy: src=bashlog.sh dest=/etc/profile.d/bashlog.sh owner=root group=root mode=0755 backup=yes
+
+- copy: src=diskspace.sh dest=/admin/diskspace.sh owner=root group=root mode=0755 backup=yes
+
+  name: Copy useful script into /admin
+- file: src=/tmp/{{ item.src }} dest={{ item.dest }} owner=root group=root mode=0755
+  with_items:
+    - { src: 'findlarge.sh', dest: '/admin/findlarge.sh' }
+
+- include: cron.yml
+

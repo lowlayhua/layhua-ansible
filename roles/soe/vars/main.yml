@@ -1,0 +1,6 @@
+---
+# vars file for soe
+  vars:
+    packages:
+     - telnet
+     - ntp

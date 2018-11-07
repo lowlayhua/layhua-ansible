@@ -1,0 +1,4 @@
+  tasks:
+    - name: Setting up test packages.
+      yum: name={{ item }} state=latest
+      with_items: "{{ packages }}"

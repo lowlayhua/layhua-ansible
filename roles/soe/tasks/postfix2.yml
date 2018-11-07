@@ -1,0 +1,13 @@
+
+- name: update configuration file
+  template:
+    src: etc/postfix/main.cf.j2
+    dest: /etc/postfix/main.cf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart postfix
+  tags:
+    - configuration
+    - postfix
+    - postfix-configuration

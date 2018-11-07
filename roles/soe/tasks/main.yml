@@ -1,0 +1,11 @@
+---
+# tasks file for soe
+# Gather Server  information
+#
+# OS configuration 
+- file: path=/admin state=directory mode=0755
+- copy: src=hosts dest=/etc/hosts owner=root group=root mode=0755 backup=yes
+#- include: gather_info.yml
+- include: copy.yml
+- include: postfix.yml
+#- command: /admin/r.sh

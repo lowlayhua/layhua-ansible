@@ -1,0 +1,22 @@
+---
+# defaults file for useradd_hdfs
+#
+users:
+ - dsuser
+ - ngyibin
+ - maximilian
+ - yuanchao
+ - anhkeen
+ - choonhua
+ - duncanh
+ - yingli
+ - aloysiusl
+ - henannan
+ - jinyunye
+ - vprakash
+ - aksehirli
+ - terencelzw
+ - yidacai
+ - mohanp
+ - luoshixin
+ - skajanan

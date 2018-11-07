@@ -1,0 +1,9 @@
+
+- user: name={{ item }} comment={{ item }} groups=wheel
+  with_items:
+  - "{{ users }}"
+
+- authorized_key: user={{ item }} key="{{ lookup('file', '~/ansible/files/{{ item }}.pub') }}"
+  with_items:
+  - "{{ users }}"
+

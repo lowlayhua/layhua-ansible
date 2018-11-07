@@ -1,0 +1,39 @@
+0:test:ansible all --inventory-file=/Users/lowlayhua/ansible/hosts -m ping --user layhua“:
+1:To transfer a file directly to many servers:ansible 10.243.44.173 -m copy -a "src=hosts dest=/home/layhua/hosts" -u layhua
+c1:To transfer a file directly to many servers:ansible 10.243.44.173 -m copy -a "src=menu.pl dest=/home/layhua/menu.pl" -u layhua
+3:Delete directories (recursively) and delete files:ansible 10.243.44.173 -m file -a "dest=/home/layhua/hosts state=absent"
+3:files:ansible 10.243.44.173 ansible webservers -m file -a "dest=/srv/foo/b.txt mode=600 owner=mdehaan group=mdehaan" -u layhua
+
+4:Ensure a package is installed to a specific version:ansible galaxy -m yum -a "name=java-1.8.0-openjdk state=present state=latest"
+5:Adduser :ansible dev -m user -a "name=gohsharon groups=Devops"
+
+6:Delete user:ansible all -m user -a "name=foo state=absent"
+7:Adduser users in dev:ansible 10.44.59.52 -m user -a "name=mohanp groups=cloudera-scm, append=yes password=$6$Ihgm4LrS$CnCDiGI3uZCD6K90Cd0y/.DZauvI.v4Eudm/6zMRBOTfMEfBmmapu7OieE0qiKqKFJoDQmxx3wjVTmXgg0lM0." -u layhua --sudo
+8:Adduser users in aws:ansible aws-optus -m user -a "name=anhkeen groups=wheel, append=yes" -u layhua --sudo
+81:To mkdir ssh key directly to many servers:ansible aws-optus -m shell -a "mkdir /home/anhkeen/.ssh mode=600 owner=anhkeen group=anhkeen" -u layhua --sudo
+82:To transfer ssh key directly to many servers:ansible aws-optus -m copy -a "src=anhkeen dest=/home/anhkeen/.ssh mode=600 owner=anhkeen group=anhkeen" -u layhua --sudo
+72:To transfer ssh key directly to many servers:ansible aws-optus -m copy -a "src=anhkeen dest=/home/anhkeen/.ssh mode=600 owner=anhkeen group=anhkeen" -u layhua --sudo
+9:check disk space:ansible prod -a "df -h" -u layhua
+90:Don't expire password:ansible prod -a "chage -M 99999 hpbac" -u layhua --sudo
+91:Don't expire password:ansible prod -a "chage -l hpbac" -u layhua --sudo
+92:df production servers:ansible prod -a "df -h" -u layhua > $HOME/Downloads/prod_df.txt
+93:rpm dev servers:ansible dev -a "python -V" -u layhua > $HOME/Downloads/python-V.txt
+93:sigrid:ansible dev -a "id sigrid" -u layhua > $HOME/Downloads/python-V.txt
+94:yum update:ansible webservers -m yum -a "name=* state=latest"
+95:fetch html:ansible -i aws-hosts crater -s -m fetch -a "src=SYS_ip-10-1-1-68.2016-07-14.html dest=SYS_ip-10-1-1-68.2016-07-14.html" -u layhua
+cr:cron job for diskspace:ansible all -s -m cron -a "name='Alerts for Disk Space' hour=4 job='/home/layhua/diskspace.sh'"
+du:userdel in dev cluster:ansible dev -m user -a "name=sigrid state=absent remove=yes" -u layhua --sudo
+y:yum update:ansible webservers -m yum -a "name=* state=latest"
+cc:check cloudera in dev cluster:ansible dev -a "rpm -qa cloudera-manager-*" -u layhua
+da:check daas process:ansible daas-solr-zk -m shell -a "ps -ef |grep java" -u ec2-user -i aws-hosts
+yu:yum upgrade cloudera-manager-agent:ansible prod-dn -m yum -a "name=cloudera-manager-agent state=present state=latest" -u layhua --sudo
+re:reboot dev data nodes:ansible devdn -m shell -a "/usr/bin/reboot" -u layhua --sudo
+reboot:Reboot all dev servers:#ansible dev -a "/usr/bin/reboot" -u layhua --sudo
+
+solr:check AWS solr:ansible solr -m shell -a "ps -ef | grep java" -u layhua -i aws-hosts |more
+h1:check HDFS logs:ansible dev -m shell -a "ls -l /var/log/hadoop-hdfs/*.log.out.?" -u layhua
+h1:check logs:ansible dev -m shell -a "ls -l /var/log/hadoop-yarn/*.log.out.?" -u layhua
+
+zoo:check zookeeper:ansible zookeeper -m shell -a "/opt/zookeeper-3.4.6/bin/zkServer.sh status" -u ec2-user --sudo -i aws-hosts
+zds:check zookeeper:ansible dsserver -m shell -a "/opt/zookeeper-3.4.8/bin/zkServer.sh status" -u layhua --sudo -i hosts
+sds:check zookeeper:ansible dsserver -m shell -a "service solr status" -u layhua --sudo -i hosts

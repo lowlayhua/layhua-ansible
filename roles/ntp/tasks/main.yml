@@ -1,0 +1,11 @@
+---
+# tasks file for ntp
+- name: Install ntp
+  yum: name=ntp state=present
+  tags: ntp
+
+- copy: src=ntp.conf dest=/etc/ntp.conf owner=root group=root mode=0644
+
+- name: Start the ntp service
+  service: name=networker state=started enabled=yes
+  tags: networker
