@@ -1,0 +1,25 @@
+#https://d0.awsstatic.com/whitepapers/Storage/Backup_and_Recovery_Approaches_Using_AWS.pdf
+00:Create snapshot for lta-kafka-host root vol:aws ec2 create-snapshot --volume-id vol-073eaec1 --description "lta-kafka-host-rootvol"
+0:Create snapshot for sftpcrater root vol:aws ec2 create-snapshot --volume-id vol-468a1680
+1:Create snapshot for sas-test root vol:aws ec2 create-snapshot --volume-id vol-ecf93768
+11:Change Instance Type from t2-micro to m1.small :aws ec2 modify-instance-attribute --instance-id -22d7d6ac --instance-type "{\"Value\": \"m1.small\"}"
+#Restoring from an EBS Snapshot
+2:create a volume from the backup snapshot for sftpcrater:aws ec2 create-volume --region ap-southeast-1 --snapshotid mysnapshot-id
+3:Create ec2 t2.micro 50G:aws ec2 run-instances --image-id ami-1ddc0b7e --count 1 --instance-type t2.micro --key-name DevOps-Vendor --security-group-ids sg-263b3a43 --subnet-id subnet-f1435585 --associate-public-ip-address --block-device-mappings file://mapping.json
+4:start sasva-1:aws ec2 start-instances --instance-ids=i-02dcd38c
+4:stop sasva-1:aws ec2 stop-instances --instance-ids=i-02dcd38c
+5a:aws s3 dataspark-prj-fornax:aws s3api create-bucket --bucket dataspark-prj-fornax
+5b:aws s3 dataspark-prj-fornax:aws s3api get-bucket-policy --bucket dataspark-crater-wifi --query Policy --output text > policy.json
+5c:set aws s3 policy:aws s3api put-bucket-policy --bucket dataspark-prj-fornax --policy file://S3policydataspark-prj-fornax.json
+d1:Backup Security Groups:aws ec2 describe-security-groups > SC_$(date +%Y%m%d).json
+d1:Describe instance:aws ec2 describe-instances > describe-instances_$(date +%Y%m%d).json
+c1:Create instance:aws ec2 run-instances --image-id ami-1ddc0b7e --count 1 --instance-type t2.micro --key-name DevOps-Vendor --security-group-ids sg-abf5c5cf --user-data file://add-hdd-cdh.sh  --subnet-id subnet-f1435585 --associate-public-ip-address --block-device-mappings file://mapping-hdd.json
+
+f1:delete VPC flow logs:aws ec2 delete-flow-logs --flow-log-ids fl-a250b0cb
+f2:create VPC flow logs:./flow.sh eni-281e784c
+# recovery
+s2:create a volume from the backup snapshot for lta-kafka-host-root:aws ec2 create-volume --region ap-southeast-1 --availability-zone ap-southeast-1a --snapshotid snap-b1a64335
+a1:aws autoscaling create-auto-scaling-group help: aws autoscaling create-auto-scaling-group help
+s31: aws sync: aws s3 sync myfolder s3://mybucket/myfolder --exclude *.tmp
+l01: List buckets:aws s3api list-buckets
+c1: Create EC2:create-instance-cdh-optus.sh
