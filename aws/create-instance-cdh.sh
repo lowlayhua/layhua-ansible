@@ -11,4 +11,4 @@ aws ec2 run-instances --image-id ami-3f03c55c --count 3 \
 --user-data file://add-hdd-cdh.sh \
 --security-group-ids sg-52122c36 \
 --subnet-id subnet-6a61850f --associate-public-ip-address \
---block-device-mappings file://mapping-hdd-cdh-optus.json
+--block-device-mappings file://mapping-hdd-cdh.json
