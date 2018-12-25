@@ -1,0 +1,1 @@
+chkconfig NetworkManager off
