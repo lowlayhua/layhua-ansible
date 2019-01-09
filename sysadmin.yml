@@ -1,0 +1,9 @@
+- user: name={{ item }} comment={{ item }} groups=wheel
+  with_items:
+  - "{{ sysadmin }}"
+  tags: sysadmin
+
+- authorized_key: user={{ item }} key="{{ lookup('file', '~/ansible/files/{{ item }}.pub') }}"
+  with_items:
+  - "{{ sysadmin }}"
+  tags: ssh_key

@@ -1,0 +1,25 @@
+#!/usr/bin/env ansible-playbook
+---
+- hosts: EDGE
+  gather_facts: false
+  remote_user: hdadmin
+  become: yes
+
+#- name: Include vars of users.txt into the 'duserid' variable
+#  include_vars:
+#    file: users.txt
+#    name: duserid
+
+  vars:
+    - sysadmin: layhua
+#    - sysadmin: anduslim
+#    - users: dataspark
+
+#  roles:
+#    - cloudera
+
+  tasks:
+    - copy: src=bashlog.sh dest=/etc/profile.d/bashlog.sh owner=root group=root mode=0755
+    - include: sysadmin.yml
+    - include: sudo-wheel.yml
+    - include: bashrc.yml
