@@ -9,8 +9,8 @@ HostbasedAuthentication no
 PermitRootLogin no
 PermitEmptyPasswords no
 PermitUserEnvironment no
-ClientAliveInterval 0
-ClientAliveCountMax 3
+ClientAliveInterval 300
+ClientAliveCountMax 0
 EOF
 
 cat << 'EOF' >> /etc/hosts.allow
