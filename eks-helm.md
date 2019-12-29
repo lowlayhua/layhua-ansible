@@ -34,7 +34,7 @@ Get the NGINX URL:
   echo "NGINX URL: http://$SERVICE_IP/"
 ```
 ## Inspect this Deployment object in more detail
-ec2-user:~/environment $ 
+```
 ec2-user:~/environment $ kubectl describe deployment mywebserver
 Name:                   mywebserver-nginx
 Namespace:              default
