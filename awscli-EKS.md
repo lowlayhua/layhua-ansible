@@ -23,3 +23,19 @@ eksctl completion bash >> ~/.bash_completion
 ```
 eksctl create cluster --name=eksworkshop-eksctl --nodes=3 --managed --alb-ingress-access --region=${AWS_REGION}
 ```
+# Test & Verify
+## kubectl get nodes # if we see our 3 nodes, we know we have authenticated correctly
+```
+kubectl get nodes
+ec2-user:~/environment $ kubectl get nodes
+NAME                                           STATUS   ROLES    AGE    VERSION
+ip-192-168-18-52.us-west-2.compute.internal    Ready    <none>   88s    v1.14.7-eks-1861c5
+ip-192-168-56-255.us-west-2.compute.internal   Ready    <none>   104s   v1.14.7-eks-1861c5
+ip-192-168-93-143.us-west-2.compute.internal   Ready    <none>   106s   v1.14.7-eks-1861c5
+```
+## Export the Worker Role Name for use throughout the workshop:
+```
+STACK_NAME=$(eksctl get nodegroup --cluster eksworkshop-eksctl -o json | jq -r '.[].StackName')
+ROLE_NAME=$(aws cloudformation describe-stack-resources --stack-name $STACK_NAME | jq -r '.StackResources[] | select(.ResourceType=="AWS::IAM::Role") | .PhysicalResourceId')
+echo "export ROLE_NAME=${ROLE_NAME}" | tee -a ~/.bash_profile
+```
