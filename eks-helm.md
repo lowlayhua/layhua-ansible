@@ -89,3 +89,15 @@ ec2-user:~/environment $ kubectl get service mywebserver-nginx -o wide
 NAME                TYPE           CLUSTER-IP      EXTERNAL-IP                                                              PORT(S)                      AGE   SELECTOR
 mywebserver-nginx   LoadBalancer   10.100.64.194   a8860c9562a3c11eaa60106369e4b7b2-633678368.us-west-2.elb.amazonaws.com   80:31136/TCP,443:31651/TCP   10m   app.kubernetes.io/instance=mywebserver,app.kubernetes.io/name=nginx
 ```
+## Clean up
+```
+helm list
+ec2-user:~/environment $ helm delete --purge mywebserver
+release "mywebserver" deleted
+```
+
+## kubectl will also demonstrate that our pods and service are no longer available:
+```
+kubectl get pods -l app.kubernetes.io/name=nginx
+kubectl get service mywebserver-nginx -o wide
+```
