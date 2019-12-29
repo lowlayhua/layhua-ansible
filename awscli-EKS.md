@@ -44,3 +44,22 @@ echo "export ROLE_NAME=${ROLE_NAME}" | tee -a ~/.bash_profile
 kubectl get deployment
 kubectl get services
 ```
+
+## SCALE THE BACKEND SERVICES
+```
+ec2-user:~/environment $ kubectl get deployment
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+ecsdemo-crystal    1/1     1            1           3h52m
+ecsdemo-frontend   1/1     1            1           25m
+ecsdemo-nodejs     1/1     1            1           3h52m
+ec2-user:~/environment $ kubectl scale deployment ecsdemo-nodejs --replicas=3
+deployment.extensions/ecsdemo-nodejs scaled
+ec2-user:~/environment $ kubectl scale deployment ecsdemo-crystal --replicas=3
+deployment.extensions/ecsdemo-crystal scaled
+ec2-user:~/environment $ kubectl get deployment
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+ecsdemo-crystal    3/3     3            3           3h52m
+ecsdemo-frontend   1/1     1            1           25m
+ecsdemo-nodejs     3/3     3            3           3h53m
+```
+
