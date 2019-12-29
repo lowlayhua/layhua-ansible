@@ -86,4 +86,7 @@ ec2-user:~/environment/ecsdemo-crystal (master) $ kubectl delete -f kubernetes/s
 service "ecsdemo-crystal" deleted
 ec2-user:~/environment/ecsdemo-crystal (master) $ kubectl get deployments
 No resources found
+ec2-user:~/environment/ecsdemo-crystal (master) $ kubectl get services
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   4h25m
 ```
