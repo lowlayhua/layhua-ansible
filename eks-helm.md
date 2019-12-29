@@ -83,3 +83,9 @@ ec2-user:~/environment $ kubectl get pods -l app.kubernetes.io/name=nginx
 NAME                               READY   STATUS    RESTARTS   AGE
 mywebserver-nginx-8f744875-xs75f   1/1     Running   0          3m39s
 ```
+## To get the complete URL of this Service
+```
+ec2-user:~/environment $ kubectl get service mywebserver-nginx -o wide
+NAME                TYPE           CLUSTER-IP      EXTERNAL-IP                                                              PORT(S)                      AGE   SELECTOR
+mywebserver-nginx   LoadBalancer   10.100.64.194   a8860c9562a3c11eaa60106369e4b7b2-633678368.us-west-2.elb.amazonaws.com   80:31136/TCP,443:31651/TCP   10m   app.kubernetes.io/instance=mywebserver,app.kubernetes.io/name=nginx
+```
