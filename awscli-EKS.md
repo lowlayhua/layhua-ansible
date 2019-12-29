@@ -63,3 +63,27 @@ ecsdemo-frontend   1/1     1            1           25m
 ecsdemo-nodejs     3/3     3            3           3h53m
 ```
 
+## Delete the services and  deployments
+```
+ec2-user:~/environment/ecsdemo-nodejs (master) $ kubectl get deployments.
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+ecsdemo-crystal    3/3     3            3           3h58m
+ecsdemo-frontend   3/3     3            3           31m
+ecsdemo-nodejs     3/3     3            3           3h58m
+ec2-user:~/environment/ecsdemo-nodejs (master) $ kubectl delete -f kubernetes/deployment.yaml 
+deployment.apps "ecsdemo-nodejs" deleted
+ec2-user:~/environment/ecsdemo-nodejs (master) $ kubectl delete -f kubernetes/service.yaml 
+service "ecsdemo-nodejs" deleted
+ec2-user:~/environment/ecsdemo-nodejs (master) $ cd ../ecsdemo-frontend/
+ec2-user:~/environment/ecsdemo-frontend (master) $ kubectl delete -f kubernetes/deployment.yaml 
+deployment.apps "ecsdemo-frontend" deleted
+ec2-user:~/environment/ecsdemo-frontend (master) $ kubectl delete -f kubernetes/service.yaml 
+service "ecsdemo-frontend" deleted
+ec2-user:~/environment/ecsdemo-frontend (master) $ cd ../ecsdemo-crystal/
+ec2-user:~/environment/ecsdemo-crystal (master) $ kubectl delete -f kubernetes/deployment.yaml 
+deployment.apps "ecsdemo-crystal" deleted
+ec2-user:~/environment/ecsdemo-crystal (master) $ kubectl delete -f kubernetes/service.yaml 
+service "ecsdemo-crystal" deleted
+ec2-user:~/environment/ecsdemo-crystal (master) $ kubectl get deployments
+No resources found
+```
