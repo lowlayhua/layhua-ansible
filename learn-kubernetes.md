@@ -1,31 +1,31 @@
 https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/cluster-interactive/
 
-Module 1
-========
+# Module 1
+```
 kubectl version
 minikube start
 kubectl version
 kubectl cluster-info
 kubectl cluster-info dump
 kubectl get nodes
+```
+#  Using kubectl to Create a Deployment
 
-2. Using kubectl to Create a Deployment
-========================================
-Create a deployment
--------------------
+## Create a deployment
+```
 kubectl create deployment hello-node --image=gcr.io/hello-minikube-zero-install/hello-node --port=8080
 kubectl get deployments
 kubectl get events
 kubectl config view
-
-
+```
+```
 kubectl create -f https://k8s.io/examples/controllers/nginx-deployment.yaml
 kubectl rollout status deployment.v1.apps/nginx-deployment
 kubectl get rs
+```
 
-
-Create a service
-----------------
+## Create a service
+```
 kubectl expose deployment hello-node --type=LoadBalancer
 kubectl get services
 
@@ -40,16 +40,18 @@ kubectl get pods — all-namespaces
 kubectl describe pods
 kubectl describe nodes
 kubectl describe deployments
+```
 
-
-kubectl proxy
+## kubectl proxy
+```
 export POD_NAME=$(kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}')
 echo Name of the Pod: $POD_NAME
 curl http://localhost:8001/api/v1/namespaces/default/pods/$POD_NAME/proxy/
 kubectl exec $POD_NAME env
 kubectl exec -ti $POD_NAME bash
-
+```
 # create a new service
+```
 kubectl get pods
 kubectl get services
 kubectl expose deployment/kubernetes-bootcamp --type="nodePort" --port 8080
@@ -72,8 +74,8 @@ Events:                   <none>
 
 export NODE_PORT=$(kubectl get services/kubernetes-bootcamp -o go-template='{{(index .spec.ports 0).nodePort}}')
 echo NODE_PORT=$NODE_PORT
-
-5. scaling apps
+```
+## scaling apps
 kubectl get deployments
 kubectl scale deployments/kubernetes-bootcamp --replicas=4
 kubectl get deployments
@@ -81,43 +83,49 @@ kubectl get pods -o wide
 kubectl describe deployments/kubernetes-bootcamp
 
 kubectl scale deployments/kubernetes-bootcamp --replicas=2
-
-5.2 Load balancing
+```
+## Load balancing
+```
 kubectl describe deployments/kubernetes-bootcamp
 export NODE_PORT=$(kubectl get services/kubernetes-bootcamp -o go-template='{{(index .spec.ports 0).nodePort}}')
 echo NODE_PORT=$NODE_PORT
 curl $(minikube ip):$NODE_PORT
+```
 
+## Performing a Rolling Update
 
-Performing a Rolling Update
-Step 1: Performing an update
+### Step 1: Performing an update
+```
 kubectl get deployments
 kubectl get pods
 kubectl describe pods
 kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=jocatalin/kubernetes-bootcamp:2
-
-Step 2: Verify an update
+```
+### Step 2: Verify an update
+```
 kubectl describe services/kubernetes-bootcamp
 export NODE_PORT=$(kubectl get services/kubernetes-bootcamp -o go-template='{{(index .spec.ports 0).nodePort}}')
 echo NODE_PORT=$NODE_PORT
 curl $(minikube ip):$NODE_PORT
 kubectl rollout status deployments/kubernetes-bootcamp
 kubectl describe pods
-
-Step 3: Rollback an update
+```
+### Step 3: Rollback an update
+```
 kubectl set image deployments/kubernets-bootcamp kubernetes-bootcamp=gcr.io/google-samples/kubernetes-bootcamp:v10
 kubectl get deployments
 kubectl get pods
 kubectl describe pods
-
-There is no image called v10 in the repository. Let’s roll back to our previously working version. We’ll use the rollout undo command:
+```
+### There is no image called v10 in the repository. Let’s roll back to our previously working version. We’ll use the rollout undo command:
+```
 kubectl rollout undo deployments/kubernetes-bootcamp
 kubectl get pods
 kubectl describe pods
+```
 
-
-Suppose that you made a typo while updating the Deployment, by putting the image name as nginx:1.91 instead of nginx:1.9.1:
-
+### Suppose that you made a typo while updating the Deployment, by putting the image name as nginx:1.91 instead of nginx:1.9.1:
+```
 $ kubectl set image deployment.v1.apps/nginx-deployment nginx=nginx:1.91 --record=true
 deployment.apps/nginx-deployment image updated
 The rollout will be stuck.
@@ -127,12 +135,12 @@ Waiting for rollout to finish: 1 out of 3 new replicas have been updated...
 
 
 kubectl rollout history deployment.v1.apps/nginx-deployment
-
-...skipping...
-kubectl version
+```
 
 
-install minikube to run a local kubernetes instance
+
+## install minikube to run a local kubernetes instance
+```
 minikube version
 minikube start
 
@@ -151,9 +159,10 @@ minikube dashboard
 
 kuberctl get pods,rs,deployments
 kuberctl logs xxxxx
+```
 
-Kubernetes cluster
-==================
+# Kubernetes cluster
+```
 systemctl status kubelet
 ls -l /etc/kubernetes/manifests
 cat /etc/kubernetes/manifest/etcd.yml
@@ -170,30 +179,34 @@ To speed up the setup of gcloud, you can make use of "Google Cloud Shell", a pur
 
 The gcloud CLI allows you to resize your cluster, update it and upgrade it.
 Once you are done using the cluster, do not forget to delete it to avoid being charged.: gcloud container clusters delete  oreilly
-
-Kubernetes Client
-================
+```
+## Kubernetes Client
+```
 TO list all pods: kubectl get pods
 To list all services, deployments: kubectl get servies,deployments
 To list a specific deployment: kubectl get deployment myfirstk8app
 To list all resources: kubectl get all
-
-Deleting resources
-==================
+```
+## Deleting resources
+```
 Delete all resources in the namespace: kubectl get ns && kubectl delete ns my-app
 Delete service, deployments labelled with app=niceone: kubectl delete svc,deploy -l app=niceone
 Force deletion of a pod: kubectl delete pod hangingpod --grace-period=0 --force
 Delete all pods in the namespace test: kubectl delete pods --all --namespace test
-
-Watching resoures changes with kubectl
+```
+## Watching resoures changes with kubectl
+```
 $ kuberctl get pods --watch
 $ watch kubectl get pods
+```
 
-
-Editing Resources with kubect
+## Editing Resources with kubect
+```
 $ kubectl run nginx --image=nginx
 $ kubectl edit deploy/nginx
-
-3.5 Asking kubectl to explain resoures & fields
+```
+## Asking kubectl to explain resoures & fields
+```
 $ kubectl explain svc
 $ kubectl explain svc.spec.externalIPs
+```
