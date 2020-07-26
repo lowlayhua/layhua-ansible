@@ -1,0 +1,13 @@
+- hosts: mongo1
+  become: yes
+  tasks:
+  - copy:
+      src: start-local-mongo.sh
+      dest: /root/start-local-mongo.sh
+      mode: 0755
+  -  shell: /usr/bin/pgrep connector | xargs kill -9
+  -  shell: /root/start-local-mongo.sh
+  - name: restart local-mongo
+    service:
+      name: local-mongo
+      state: restarted
