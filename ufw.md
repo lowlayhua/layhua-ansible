@@ -1,3 +1,8 @@
+# Setup UFW
+```
+sudo apt update
+sudo apt install ufw
+```
 # Enable the UFW based firewall
 ```
 sudo ufw enable
