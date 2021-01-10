@@ -2,24 +2,24 @@
 ```
 sudo ufw enable
 ```
-# How do I check the status of my rules?
+# Check the status of my rules?
 ```
 sudo ufw status
 sudo ufw status verbose
 ```
-# allow SSH, 80/tcp and 443/tcp connections
+# Allow SSH, 80/tcp and 443/tcp connections
 ```
 sudo ufw allow ssh
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
 ```
 
-# deny all connections from an IP
+# Deny all connections from an IP
 ```
 sudo ufw deny from 123.45.67.89/24
 ```
 
-# to reset ufw rules to their factory default settings and in an inactive mode
+# Reset ufw rules to their factory default settings and in an inactive mode
 ```
 sudo ufw reset
  ```
