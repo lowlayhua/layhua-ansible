@@ -8,6 +8,7 @@ $ ansible-galaxy init ROLENAME
 
 # CIS 
 ### A role to implement Center for Internet Security (CIS) controls for RHEL (7-8) and RHEL clones (Oracle, CentOS), SLES 15, and Ubuntu 18.04 LTS.
+Installed int ~/.ansible/collections/ansible_collections/dsglaser/cis_security
 ```
 ansible-galaxy collection install dsglaser.cis_security
 ```
