@@ -6,4 +6,4 @@
 - `ansible-vault view <FILE>'
 
 - Put in yaml file
-  - `ansible-vault encrypt_string "xxx" -n meaning` --vault-id dev@xxx`
+  - `ansible-vault encrypt_string "xxx" -n meaning --vault-id dev@xxx`
