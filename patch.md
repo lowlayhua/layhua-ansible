@@ -2,13 +2,13 @@
 https://access.redhat.com/solutions/10021
 - ` yum list-security --security` or `yum updateinfo info security`
 - `yum -y update --security`
-
+- `yum update-minimal --security -y`
 # Centos / Rhel 8
 - To list security updates
 `dnf updateinfo list --security --available`
 - To install only security update
 `dnf upgrade --security`
-
+`dnf upgrade-minimal`
 
 ```
 - name: Get packages that can be patched with security fixes
