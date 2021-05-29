@@ -27,3 +27,14 @@ tasks:
  `ignore_errors: yes`
  
 
+# Lookup
+```
+- name: Test Connectivity
+  hosts: web_server
+  vars:
+    ansible_ssh_pass: "{{ lookup('csvfile', 'web_server file=credentials.csv delimiter=,') }}"
+  tasks:
+  - name: Ping target host
+    ping:
+           data: "Test"
+ ```
