@@ -28,11 +28,24 @@ tasks:
  
 
 # Lookup
+- csv
 ```
 - name: Test Connectivity
   hosts: web_server
   vars:
     ansible_ssh_pass: "{{ lookup('csvfile', 'web_server file=credentials.csv delimiter=,') }}"
+  tasks:
+  - name: Ping target host
+    ping:
+           data: "Test"
+ ```
+- ini
+```
+ name: Test Connectivity
+  hosts: web_server
+  vars:
+    ansible_ssh_pass: "{{ lookup('ini', 'password section=web_server file=credentials.ini') }}"
+
   tasks:
   - name: Ping target host
     ping:
