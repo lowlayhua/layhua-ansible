@@ -26,7 +26,4 @@ tasks:
  # ignore Errors
  `ignore_errors: yes`
  
- # Mail
- ```
- - mail:
-     
+
