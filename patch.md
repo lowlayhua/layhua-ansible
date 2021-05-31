@@ -1,4 +1,4 @@
-** Centos / Rhel 6/7
+** Centos / Rhel 6/7 **
 https://access.redhat.com/solutions/10021
 - ` yum list-security --security` or `yum updateinfo info security`
 - `yum -y update --security`
