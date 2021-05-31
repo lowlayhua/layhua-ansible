@@ -3,6 +3,18 @@ https://access.redhat.com/solutions/10021
 - ` yum list-security --security` or `yum updateinfo info security`
 - `yum -y update --security`
 - `yum update-minimal --security -y`
+
+
+
+```
+---
+  - name: Get packages that can be patched with security fixes
+    command: yum list-security --security
+    register: yum-list-security_output
+  - debug: var=yum-list-security_output
+
+```
+
 # Centos / Rhel 8
 - To list security updates
 `dnf updateinfo list --security --available`
