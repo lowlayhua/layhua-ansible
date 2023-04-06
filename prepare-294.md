@@ -38,6 +38,9 @@
     - rhel-system-roles.selinux
     
 ```
+
+# chrony
+```
 ---
 - name: site
   hosts: localhost
