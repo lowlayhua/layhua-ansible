@@ -18,7 +18,7 @@
 - src: http:///xxx
   name: xxx
 ```
-- `ansible-galaxy install -r requirements.yml -p ~/ansible/roles
+- `ansible-galaxy install -r requirements.yml -p ~/ansible/roles`
 
 # create role
 - `ansible-galaxy init apache`
