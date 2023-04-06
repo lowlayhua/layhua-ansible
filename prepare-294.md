@@ -27,6 +27,8 @@
 
 # sudo yum install rhel-system-roles
 - read /var/share/doc/rhel-system-roles/
+
+### SELINUX
 ```
 ---
 - name: configure selinux
@@ -39,7 +41,7 @@
     
 ```
 
-# chrony
+### chrony
 ```
 ---
 - name: site
