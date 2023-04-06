@@ -27,3 +27,25 @@
 
 # sudo yum install rhel-system-roles
 - read /var/share/doc/rhel-system-roles/
+```
+---
+- name: configure selinux
+  hosts: localhost
+  become: yes
+  vars:
+    - selinux_state: enforcing
+  roles:
+    - rhel-system-roles.selinux
+    
+```
+---
+- name: site
+  hosts: localhost
+  become: yes
+  vars:
+    timesync_ntp_servers:
+      - hostname: ntp2.singnet.com.sg
+        iburst: true
+  roles:
+    - rhel-system-roles.timesync
+```
