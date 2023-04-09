@@ -26,7 +26,7 @@
 
 
 # sudo yum install rhel-system-roles
-- read /var/share/doc/rhel-system-roles/
+- read /usr/share/ansible/roles/rhel-system-roles.selinux
 
 ### SELINUX
 ```
@@ -42,6 +42,7 @@
 ```
 
 ### chrony
+- read /usr/share/ansible/roles/rhel-system-roles.timesync
 ```
 ---
 - name: site
@@ -54,3 +55,25 @@
   roles:
     - rhel-system-roles.timesync
 ```
+
+
+### hosts.j2
+```
+{% for host in groups['all'] %}
+{{ hostvars[host]['ansible_facts']['default_ipv4']['address'] }} {{ hostvars[host]['ansible_facts']['fqdn'] }} {{ hostvars[host]['ansible_facts']['hostname'] }}
+{% endfor %}
+```
+### hosts.yaml
+```
+---
+- name: generate hosts
+  hosts: all
+  tasks:
+
+    - template:
+        src: hosts.j2
+        dest: /tmp/myhosts
+      when: inventory_hostname in groups['dev']
+      
+```
+
