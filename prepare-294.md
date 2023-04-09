@@ -77,3 +77,39 @@
       
 ```
 
+# 5. apache
+```
+cat roles/apache/templates/template.j2
+My host is {{ ansible_hostname }} on {{ ansible_default_ipv4.address }}
+```
+```
+---
+# tasks file for apache
+- name: install apache
+  yum:
+    name: httpd
+    state: latest
+
+- name: start httpd
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: index.html
+  template:
+    src: template.j2
+    dest: /var/www/html/index.html
+    
+```
+```
+more Q5.yaml
+---
+- name: dev
+  hosts: dev
+  become: yes
+  roles:
+    - apache
+```
+
+
