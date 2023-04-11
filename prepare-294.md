@@ -25,37 +25,6 @@
 - `ansible-galaxy install linux-system-roles.timesync`
 
 
-# sudo yum install rhel-system-roles
-- read /usr/share/ansible/roles/rhel-system-roles.selinux
-
-### SELINUX
-```
----
-- name: configure selinux
-  hosts: localhost
-  become: yes
-  vars:
-    - selinux_state: enforcing
-  roles:
-    - rhel-system-roles.selinux
-    
-```
-
-### chrony
-- read /usr/share/ansible/roles/rhel-system-roles.timesync
-```
----
-- name: site
-  hosts: localhost
-  become: yes
-  vars:
-    timesync_ntp_servers:
-      - hostname: ntp2.singnet.com.sg
-        iburst: true
-  roles:
-    - rhel-system-roles.timesync
-```
-
 
 ### hosts.j2
 ```
@@ -112,4 +81,39 @@ more Q5.yaml
     - apache
 ```
 
+# 7. rhel-system-roles
 
+- `sudo yum install rhel-system-roles`
+- read /usr/share/ansible/roles/rhel-system-roles.selinux
+
+### SELINUX
+```
+---
+- name: configure selinux
+  hosts: localhost
+  become: yes
+  vars:
+    - selinux_state: enforcing
+  roles:
+    - rhel-system-roles.selinux
+    
+```
+
+### chrony
+- read /usr/share/ansible/roles/rhel-system-roles.timesync
+```
+---
+- name: site
+  hosts: localhost
+  become: yes
+  vars:
+    timesync_ntp_servers:
+      - hostname: ntp2.singnet.com.sg
+        iburst: true
+  roles:
+    - rhel-system-roles.timesync
+```
+
+# 8. Install packages
+
+# 9. webcontent
