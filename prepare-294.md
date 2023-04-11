@@ -160,3 +160,19 @@ more Q5.yaml
         dest: /var/www/html/devweb
         state: link
  ```
+# 10. hwreport.yaml
+```
+---
+- name: copy
+  copy:
+    dest: /tmp/hwreport2.txt
+    content: |
+      #hwreport
+      HOSTNAME={{ ansible_hostname }}
+      MEMORY={{ ansible_memtotal_mb }}
+      BIOS={{ ansible_bios_version }}
+      CPU={{ ansible_processor[2] }}
+      DISK0={{ ansible_devices.xvda.size }}
+#      DISK1={{ ansible_devices['nvme1n1']['size'] }}
+#      DISK1={{ ansible_devices.nvme1n1.size }}
+```
