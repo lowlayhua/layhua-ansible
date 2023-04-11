@@ -1,5 +1,9 @@
-# vimrc
+# TO remember
+```
+setype: httpd_sys_content_t
+```
 
+# vimrc
 `autocmd FileType yaml setlocal ai ts=2 sw=2 et`
 
 # Check Syntax
@@ -114,6 +118,35 @@ more Q5.yaml
     - rhel-system-roles.timesync
 ```
 
-# 8. Install packages
-
+# 8. packages.yaml
 # 9. webcontent
+```
+---
+- name: webcontent
+  hosts: dev
+  tasks:
+    - name: create dir
+      file:
+        path: /devweb
+        state: directory
+        group: root
+        mode: '2775'
+        setype: httpd_sys_content_t
+
+    - name: create a file
+      file:
+        path: /devweb/index.html
+        state: touch
+
+    - name: create index.html
+      copy:
+        content: "Development\n"
+        dest: /var/www/html/index.html
+
+
+    - name: link the directory
+      file:
+        src: /devweb
+        dest: /var/www/html/devweb
+        state: link
+ ```
