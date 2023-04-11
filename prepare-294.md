@@ -1,6 +1,10 @@
 # TO remember
 ```
-setype: httpd_sys_content_t
+file:
+  setype: httpd_sys_content_t
+
+ansible-vault create vault.yaml --vault-password-file=secret.txt
+
 ```
 
 # vimrc
