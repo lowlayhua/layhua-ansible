@@ -16,6 +16,16 @@ setype: httpd_sys_content_t
 - `ansible-config view`
 - `ansible-doc -l | grep line`
 
+# adhoc.sh
+```
+#!/bin/bash
+ansible localhost -m yum_repository -a 'name="epel"
+description="EPEL YUM repo"
+baseurl="https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+gpgkey=no
+enabled=no"' -b
+
+```
 # requirements.yml
 ```
 ---
