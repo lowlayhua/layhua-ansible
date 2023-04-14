@@ -2,6 +2,7 @@
 ```
 file:
   setype: httpd_sys_content_t
+  setype: etc_t
 
 ansible-vault create vault.yaml --vault-password-file=secret.txt
 
