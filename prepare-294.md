@@ -72,7 +72,7 @@ https://www.redhat.com/sysadmin/automating-logical-volume-manager
         src: /dev/sample-vg/sample-lv
         fstype: xfs
         state: mounted
-    ```
+```
 
 # vimrc
 `autocmd FileType yaml setlocal ai ts=2 sw=2 et`
