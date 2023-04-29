@@ -8,6 +8,72 @@ ansible-vault create vault.yaml --vault-password-file=secret.txt
 
 ```
 
+# ansible-doc
+- parted
+- lvg
+- lvol
+- filesystem
+- file
+- mount
+
+
+# LVM 
+https://www.redhat.com/sysadmin/automating-logical-volume-manager
+
+```
+---
+- name: lvm
+  hosts: jump
+  gather_facts: no
+  ignore_errors: yes
+  tasks:
+
+    - name: create partition
+      parted:
+        device: /dev/xvdb
+        number: 1
+        flags: [ lvm ]
+        state: present
+
+    - name: Install lvm2 dependency
+      package:
+        name: lvm2
+        state: present
+
+    - name: create VG
+      lvg:
+        vg: sample-vg
+        pvs: /dev/xvdb1
+        pesize: 16
+
+    - name: lvm
+      lvol:
+        vg: sample-vg
+        lv: sample-lv
+        size: 100m
+        force: true
+
+    - name: Filesystem xfs
+      filesystem:
+        dev: /dev/sample-vg/sample-lv
+        fstype: xfs
+
+    - name: create directory
+      file:
+        path: /data
+        state: directory
+        mode: '0755'
+        owner: root
+        group: root
+
+    - name: mount
+      mount:
+        path: /data
+        src: /dev/sample-vg/sample-lv
+        fstype: xfs
+        state: mounted
+    ```
+
 # vimrc
 `autocmd FileType yaml setlocal ai ts=2 sw=2 et`
 
