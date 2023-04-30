@@ -73,7 +73,23 @@ https://www.redhat.com/sysadmin/automating-logical-volume-manager
         fstype: xfs
         state: mounted
 ```
+# lvm-extend.yaml
+```
+   - name: lvm
+      lvol:
+        vg: sample-vg
+        lv: sample-lv
+        size: 200m
+#        size: 100%FREE
+        force: true
 
+    - name: Filesystem xfs
+      filesystem:
+        dev: /dev/sample-vg/sample-lv
+        fstype: xfs
+        resizefs: true
+        
+```
 # vimrc
 `autocmd FileType yaml setlocal ai ts=2 sw=2 et`
 
