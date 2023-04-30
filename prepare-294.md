@@ -80,7 +80,7 @@ https://www.redhat.com/sysadmin/automating-logical-volume-manager
         vg: sample-vg
         lv: sample-lv
         size: 200m
-#        size: 100%FREE
+#        size: +100%FREE
         force: true
 
     - name: Filesystem xfs
