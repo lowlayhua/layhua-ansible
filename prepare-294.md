@@ -44,7 +44,7 @@ https://www.redhat.com/sysadmin/automating-logical-volume-manager
       lvg:
         vg: sample-vg
         pvs: /dev/xvdb1
-        pesize: 16
+     
 
     - name: lvm
       lvol:
@@ -123,9 +123,6 @@ enabled=no"' -b
 
 # create role
 - `ansible-galaxy init apache`
-- `ansible-galaxy install linux-system-roles.timesync`
-
-
 
 ### hosts.j2
 ```
