@@ -260,3 +260,45 @@ more Q5.yaml
 #      DISK1={{ ansible_devices['nvme1n1']['size'] }}
 #      DISK1={{ ansible_devices.nvme1n1.size }}
 ```
+
+# hwreport-line.yaml
+```
+---
+- hosts: jump
+  tasks:
+
+    - name: copy
+      copy:
+        src: hwreport.txt
+        dest: /tmp/hwreport3.txt
+
+    - name: change HOSTNAME
+      lineinfile:
+        path: /tmp/hwreport3.txt
+        regex: ^HOSTNAME
+        line: HOSTNAME="{{ ansible_hostname }}"
+
+    - name: change MEMORY
+      lineinfile:
+        path: /tmp/hwreport3.txt
+        regex: ^MEMORY
+        line: MEMORY="{{ ansible_memtotal_mb }}"
+
+    - name: change BIOS
+      lineinfile:
+        path: /tmp/hwreport3.txt
+        regex: ^BIOS
+        line: BIOS="{{ ansible_bios_version }}"
+
+    - name: change CPU
+      lineinfile:
+        path: /tmp/hwreport3.txt
+        regex: ^CPU
+        line: CPU="{{ ansible_processor[2] }}"
+
+    - name: change HOSTNAME
+      lineinfile:
+        path: /tmp/hwreport3.txt
+        regex: ^DISK0
+        line: DISK0="{{ ansible_devices.xvda.size }}"
+```
