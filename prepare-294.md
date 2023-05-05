@@ -98,6 +98,15 @@ https://www.redhat.com/sysadmin/automating-logical-volume-manager
 
 
 # ansible.cfg
+```
+[defaults]
+remote_user = devops
+inventory = ./inventory
+[privilege_escalation]
+become_user = root
+become_method = sudo
+become = true
+```
 - copy from /etc/ansible.cfg 
 - `ansible-config list`
 - `ansible-config view`
