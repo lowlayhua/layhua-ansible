@@ -1,3 +1,19 @@
+# Tips
+```
+alias ap='ansible-playbook'
+
+alias aps='ansible-playbook --syntax-check'
+
+alias av='ansible-vault'
+
+some functions
+
+exdoc() {
+
+ansible-doc $1 | grep -A120 "EXAMPLES"
+
+}
+```
 # TO remember
 ```
 file:
