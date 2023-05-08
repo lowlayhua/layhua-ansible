@@ -343,5 +343,15 @@ more Q5.yaml
     regexp: "^PermitRootLogin"
     line: "PermitRootLogin no"
   notify: Restart sshd
+  
+ handlers:
+  - name: Restart sshd
+    service:
+      name: sshd
+      state: restartedhandlers:
+  - name: Restart sshd
+    service:
+      name: sshd
+      state: restarted
  ```
   
