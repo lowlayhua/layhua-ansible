@@ -327,3 +327,21 @@ more Q5.yaml
         regex: ^DISK0
         line: DISK0="{{ ansible_devices.xvda.size }}"
 ```
+# Sudo
+```
+- name: Modify sudo config to allow webadmin users sudo without a password
+  copy:
+    content: "%webadmin ALL=(ALL) NOPASSWD: ALL"
+    dest: /etc/sudoers.d/webadmin
+    mode: 0440
+```
+
+```
+- name: Disable root login via SSH
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^PermitRootLogin"
+    line: "PermitRootLogin no"
+  notify: Restart sshd
+ ```
+  
