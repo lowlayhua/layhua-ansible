@@ -10,7 +10,7 @@ some functions
 
 exdoc() {
 
-ansible-doc $1 | grep -A120 "EXAMPLES"
+ansible-doc $1 | grep -A120 "EXAMPLES" | more
 
 }
 ```
