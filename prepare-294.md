@@ -21,7 +21,7 @@ file:
   setype: etc_t
 
 ansible-vault create vault.yaml --vault-password-file=secret.txt
-
+ansible-vault encrypt vars/database_users.yml --vault-id @secrets/database_users_password
 ```
 
 # ansible-doc
