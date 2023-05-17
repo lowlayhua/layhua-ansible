@@ -355,3 +355,9 @@ more Q5.yaml
       state: restarted
  ```
   
+# Timezone
+```
+- name: Set timezone to singapore
+      timezone:
+        name: Asia/Singapore
+```
