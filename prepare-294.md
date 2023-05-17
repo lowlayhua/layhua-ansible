@@ -20,8 +20,14 @@ file:
   setype: httpd_sys_content_t
   setype: etc_t
 
-ansible-vault create vault.yaml --vault-password-file=secret.txt
-ansible-vault encrypt vars/database_users.yml --vault-id @secrets/database_users_password
+```
+# Vault
+
+- `ansible-vault create vault.yaml --vault-password-file=secret.txt`
+- `ansible-playbook site.yml --vault-password-file ~/.vault_pass.txt`
+- ansible-playbook site.yml --ask-vault-pass
+- `ansible-vault encrypt vars/database_users.yml --vault-id @secrets/database_users_password`
+
 ```
 
 # ansible-doc
@@ -236,7 +242,12 @@ more Q5.yaml
   roles:
     - rhel-system-roles.timesync
 ```
-
+# Timezone
+```
+- name: Set timezone to singapore
+  timezone:
+    name: Asia/Singapore
+```
 # 8. packages.yaml
 # 9. webcontent
 ```
@@ -348,16 +359,8 @@ more Q5.yaml
   - name: Restart sshd
     service:
       name: sshd
-      state: restartedhandlers:
-  - name: Restart sshd
-    service:
-      name: sshd
       state: restarted
+      
  ```
-  
-# Timezone
-```
-- name: Set timezone to singapore
-      timezone:
-        name: Asia/Singapore
-```
+ 
+
