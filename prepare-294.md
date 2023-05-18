@@ -1,17 +1,10 @@
-# Tips
+# .bash_profile
 ```
 alias ap='ansible-playbook'
-
 alias aps='ansible-playbook --syntax-check'
-
 alias av='ansible-vault'
-
-some functions
-
 exdoc() {
-
 ansible-doc $1 | grep -A120 "EXAMPLES" | more
-
 }
 ```
 # TO remember
@@ -19,7 +12,12 @@ ansible-doc $1 | grep -A120 "EXAMPLES" | more
 file:
   setype: httpd_sys_content_t
   setype: etc_t
-```
+ ```
+# user
+- `password: "{{ item.Password | password_hash('sha512') }}"`
+
+# TO TRY
+https://www.redhat.com/sysadmin/ansible-create-users-csv
 
 # Vault
 https://tekneed.com/managing-ansible-secrets-with-ansible-vault-ex294/
