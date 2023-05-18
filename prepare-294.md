@@ -19,17 +19,16 @@ ansible-doc $1 | grep -A120 "EXAMPLES" | more
 file:
   setype: httpd_sys_content_t
   setype: etc_t
-
 ```
+
 # Vault
 https://tekneed.com/managing-ansible-secrets-with-ansible-vault-ex294/
 ### Bypass
 - `ansible-playbook site.yml --vault-password-file ~/.vault_pass.txt`
 - `ansible-vault create vault.yaml --vault-password-file=secret.txt`
-- ansible-playbook site.yml --ask-vault-pass
+- `ansible-playbook site.yml --ask-vault-pass`
 - `ansible-vault encrypt vars/database_users.yml --vault-id @secrets/database_users_password`
 
-```
 
 # ansible-doc
 - parted
