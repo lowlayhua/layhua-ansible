@@ -96,6 +96,7 @@ https://www.redhat.com/sysadmin/automating-logical-volume-manager
         fstype: xfs
         state: mounted
 ```
+
 # lvm-extend.yaml
 
 ```
