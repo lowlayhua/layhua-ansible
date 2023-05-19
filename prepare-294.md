@@ -119,6 +119,7 @@ https://www.redhat.com/sysadmin/automating-logical-volume-manager
 
 
 # ansible.cfg
+- `cp /etc/ansible/ansible.cfg .`
 ```
 [defaults]
 remote_user = devops
