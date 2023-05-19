@@ -354,7 +354,7 @@ more Q5.yaml
     regexp: "^PermitRootLogin"
     line: "PermitRootLogin no"
   notify: Restart sshd
-  
+
  handlers:
   - name: Restart sshd
     service:
@@ -363,4 +363,6 @@ more Q5.yaml
       
  ```
  
-
+# Troubleshooting
+https://www.redhat.com/sysadmin/troubleshoot-ansible-playbooks
+- `ansible-config dump --only-changed`
