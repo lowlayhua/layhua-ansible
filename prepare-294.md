@@ -21,6 +21,16 @@ file:
 # user
 - `password: "{{ item.Password | password_hash('sha512') }}"`
 
+# ansible-doc lineinfile
+```
+- name: Validate the sudoers file before saving
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%ADMIN ALL='
+    line: '%ADMIN ALL=(ALL) NOPASSWD: ALL'
+    validate: /usr/sbin/visudo -cf %s
+```
 # TO TRY
 https://www.redhat.com/sysadmin/ansible-create-users-csv
 
