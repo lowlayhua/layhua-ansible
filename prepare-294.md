@@ -1,3 +1,8 @@
+# Recommend to Practise
+- https://github.com/mateuszstompor/rhce-ex294-exam/tree/main/questions
+- https://github.com/DevSecOpsGuy/EX294-1
+- https://www.lisenet.com/2019/ansible-sample-exam-for-ex294/
+
 # .bash_profile
 ```
 alias ap='ansible-playbook'
