@@ -391,7 +391,26 @@ more Q5.yaml
       state: restarted
       
  ```
- 
+ # when
+ ```
+ - name: Configure sysclt para
+  hosts: jump
+  vars:
+    ram_mb: 512
+
+  tasks:
+    - name: Ensure that server meets memory requirements
+      fail:
+        msg: Server should have at least {{ ram_mb }}MB of ram
+      when:  ansible_memtotal_mb  < ram_mb
+
+    - name: configure
+      become: true
+      sysctl:
+        name: vm.swappiness
+        value: '5'
+        state: present
+   ```
 # Troubleshooting
 https://www.redhat.com/sysadmin/troubleshoot-ansible-playbooks
 - `ansible-config dump --only-changed`
