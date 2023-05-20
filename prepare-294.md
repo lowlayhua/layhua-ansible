@@ -34,6 +34,20 @@ file:
 # TO TRY
 https://www.redhat.com/sysadmin/ansible-create-users-csv
 
+# handlers
+```
+ - name: Set max auth tries
+    lineinfile:
+      regexp: '^MaxAuthTries.*'
+      line: MaxAuthTries 3
+      path: "{{ config_path }}"
+    notify: Restart the service
+  handlers:
+  - name: Restart the service
+    service:
+      name: sshd
+      state: restarted
+```
 # Vault
 https://tekneed.com/managing-ansible-secrets-with-ansible-vault-ex294/
 ### Bypass
