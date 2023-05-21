@@ -417,4 +417,4 @@ more Q5.yaml
    ```
 # Troubleshooting
 https://www.redhat.com/sysadmin/troubleshoot-ansible-playbooks
-- `ansible-config dump --only-changed`
+- `ansible-config dump -v --only-changed`
