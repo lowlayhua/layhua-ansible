@@ -17,6 +17,8 @@ ansible-doc $1 | grep -A120 "EXAMPLES" | more
 file:
   setype: httpd_sys_content_t
   setype: etc_t
+  
+- import_playbook: ansible-vsftpd.yml
  ```
 # user
 - `password: "{{ item.Password | password_hash('sha512') }}"`
@@ -64,6 +66,8 @@ https://tekneed.com/managing-ansible-secrets-with-ansible-vault-ex294/
 - filesystem
 - file
 - mount
+- rpm_key
+- yum_repository
 
 
 # LVM 
