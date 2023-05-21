@@ -20,6 +20,12 @@ file:
   
 - import_playbook: ansible-vsftpd.yml
  ```
+# Inventory
+```
+[web:children]
+intranetweb
+internetweb
+```
 # user
 - `password: "{{ item.Password | password_hash('sha512') }}"`
 
