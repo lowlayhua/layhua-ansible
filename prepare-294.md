@@ -91,6 +91,7 @@ https://tekneed.com/managing-ansible-secrets-with-ansible-vault-ex294/
 - rpm_key
 - yum_repository
 - authorized_key
+- uri
 
 
 # LVM 
