@@ -79,6 +79,7 @@ https://tekneed.com/managing-ansible-secrets-with-ansible-vault-ex294/
 - `ansible-vault create vault.yaml --vault-password-file=secret.txt`
 - `ansible-playbook site.yml --ask-vault-pass`
 - `ansible-vault encrypt vars/database_users.yml --vault-id @secrets/database_users_password`
+- `ansible-playbook --vault-id one@prompt site.yaml`
 
 
 # ansible-doc
