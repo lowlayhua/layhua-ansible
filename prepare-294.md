@@ -47,6 +47,19 @@ users:
 # user
 - `password: "{{ item.Password | password_hash('sha512') }}"`
 
+# Loop
+```
+- name: Users exist and are in the correct groups
+  user:
+    name: "{{ item.name }}"
+    state: present
+    groups: "{{ item.groups }}"
+  loop:
+    - name: jane
+      groups: wheel
+    - name: joe
+groups: root
+```
 # ansible-doc lineinfile
 ```
 - name: Validate the sudoers file before saving
