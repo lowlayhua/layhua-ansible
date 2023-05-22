@@ -452,6 +452,17 @@ more Q5.yaml
         state: enabled
         
 ```
+
+# Dump facts
+```
+---
+- name: Fact dump
+  hosts: jump
+  tasks:
+    - name: Print all facts
+      debug:
+        var: ansible_facts
+```
 # Troubleshooting
 https://www.redhat.com/sysadmin/troubleshoot-ansible-playbooks
 - `ansible-config dump -v --only-changed`
