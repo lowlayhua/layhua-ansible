@@ -108,7 +108,30 @@ https://tekneed.com/managing-ansible-secrets-with-ansible-vault-ex294/
 - yum_repository
 - authorized_key
 - uri
+- blockinfile
+- copy
+- fetch
+- file
+- lineinfile
+- stat
+- synchronize
+- sefcontext
 
+# File selinux
+```
+- name: SELinux type is set to samba_share_t
+  file:
+    path: /path/to/samba_file
+    setype: samba_share_t
+```
+- `ls -Z samba_file`
+```
+- name: SELinux type is persistently set to samba_share_t
+  sefcontext:
+    target: /path/to/samba_file
+    setype: samba_share_t
+    state: present
+```
 
 # LVM 
 https://www.redhat.com/sysadmin/automating-logical-volume-manager
