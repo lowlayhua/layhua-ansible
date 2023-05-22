@@ -479,3 +479,28 @@ more Q5.yaml
 # Troubleshooting
 https://www.redhat.com/sysadmin/troubleshoot-ansible-playbooks
 - `ansible-config dump -v --only-changed`
+
+# When
+```
+vars:
+    my_service: httpd
+
+ when: my_service is defined
+```
+
+```
+---
+- name: Demonstrate the "in" keyword
+  hosts: all
+  gather_facts: yes
+  vars:
+    supported_distros:
+      - RedHat
+      - Fedora
+  tasks:
+    - name: Install httpd using yum, where supported
+      yum:
+        name: http
+        state: present
+      when: ansible_distribution in supported_distros
+```
