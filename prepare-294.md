@@ -27,6 +27,8 @@ intranetweb
 internetweb
 ```
 # Variables
+- host_vars
+- group_vars
 - command line: `ansible-playbook main.yml -e "package=apache"`
 - `vars:`
 - `vars_files:`
