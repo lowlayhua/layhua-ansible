@@ -504,3 +504,85 @@ vars:
         state: present
       when: ansible_distribution in supported_distros
 ```
+- `when: ansible_distribution == "RedHat" or ansible_distribution == "Fedora"
+`
+```
+when:
+  - ansible_distribution_version == "7.5"
+  - ansible_kernel == "3.10.0-327.el7.x86_64"
+```
+
+```
+when: >
+    ( ansible_distribution == "RedHat" and
+      ansible_distribution_major_version == "7" )
+    or
+    ( ansible_distribution == "Fedora" and
+    ansible_distribution_major_version == "28" )
+    
+```
+### loop and when 
+```
+- name: install mariadb-server if enough space on root
+  yum:
+    name: mariadb-server
+    state: latest
+  loop: "{{ ansible_mounts }}"
+  when: item.mount == "/" and item.size_available > 300000000
+ ```
+ 
+ # Ignore Task Failure
+ - `ignore_errors: yes`
+ - `force_handlers: yes`
+ Remember that handlers are notified when a tasks reports a changed result but are not notified when it reports an ok or failed result.
+ #### failed_when
+ ```
+ tasks:
+  - name: Run user creation script
+    shell: /usr/local/bin/create_users.sh
+    register: command_result
+    ignore_errors: yes
+  - name: Report script failure
+    fail:
+      msg: "The password is missing in the output"
+    when: "'Password missing' in command_result.stdout"
+ ```
+ #### changed_when
+ ```
+ tasks:
+  - shell:
+      cmd: /usr/local/bin/upgrade-database
+    register: command_result
+    changed_when: "'Success' in command_result.stdout"
+    notify:
+      - restart_database
+handlers:
+  - name: restart_database
+     service:
+       name: mariadb
+       state: restarted
+```
+# Blocks and Error Handling
+```
+- name: block example
+  hosts: all
+  tasks:
+    - name: installing and configuring Yum versionlock plugin
+      block:
+      - name: package needed by yum
+        yum:
+          name: yum-plugin-versionlock
+          state: present
+      - name: lock version of tzdata
+        lineinfile:
+          dest: /etc/yum/pluginconf.d/versionlock.list
+          line: tzdata-2016j-1
+          state: present
+      when: ansible_distribution == "RedHat"
+```
+- block: Defines the main tasks to run
+- rescue: Defines the tasks to run if the tasks defined in the block clause fail.
+- always: Defines the tasks that will always run independently of the success or failure of tasks defined in the block and rescue clauses.
+- 
+
+ 
