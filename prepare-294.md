@@ -26,6 +26,22 @@ file:
 intranetweb
 internetweb
 ```
+# Variables
+- command line: `ansible-playbook main.yml -e "package=apache"`
+- `vars:`
+- `vars_files:`
+```
+users:
+  bjones:
+    first_name: Bob
+    last_name: Jones
+    home_dir: /users/bjones
+  acook:
+    first_name: Anne
+    last_name: Cook
+    home_dir: /users/acook
+```
+
 # user
 - `password: "{{ item.Password | password_hash('sha512') }}"`
 
@@ -422,6 +438,16 @@ more Q5.yaml
         value: '5'
         state: present
    ```
+   
+# Firewalld
+```
+    - name: fw
+      firewalld:
+        service: "{{ rule }}"
+        permanent: true
+        state: enabled
+        
+```
 # Troubleshooting
 https://www.redhat.com/sysadmin/troubleshoot-ansible-playbooks
 - `ansible-config dump -v --only-changed`
