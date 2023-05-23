@@ -252,6 +252,7 @@ enabled=no"' -b
 - `ansible-galaxy init apache`
 
 ### hosts.j2
+- `{{ ansible_facts['default_ipv4']['address'] }}`
 ```
 {% for host in groups['all'] %}
 {{ hostvars[host]['ansible_facts']['default_ipv4']['address'] }} {{ hostvars[host]['ansible_facts']['fqdn'] }} {{ hostvars[host]['ansible_facts']['hostname'] }}
