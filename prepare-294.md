@@ -98,6 +98,8 @@ https://tekneed.com/managing-ansible-secrets-with-ansible-vault-ex294/
 
 
 # ansible-doc
+- stat
+- debug
 - parted
 - lvg
 - lvol
