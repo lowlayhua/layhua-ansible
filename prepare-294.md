@@ -1,17 +1,20 @@
+# Find timezone
+- `timedatectl list-timezones`
+ 
 # Recommend to Practise
 - https://github.com/mateuszstompor/rhce-ex294-exam/tree/main/questions
 - https://github.com/DevSecOpsGuy/EX294-1
 - https://www.lisenet.com/2019/ansible-sample-exam-for-ex294/
 
+# vimrc
+`autocmd FileType yaml setlocal ai ts=2 sw=2 et`
 
 # .bash_profile
 ```
 alias ap='ansible-playbook'
 alias aps='ansible-playbook --syntax-check'
 alias av='ansible-vault'
-exdoc() {
-ansible-doc $1 | grep -A120 "EXAMPLES" | more
-}
+alias adoc='ansible-doc'
 ```
 # TO remember
 ```
@@ -46,7 +49,7 @@ users:
 ```
 
 # user
-- `password: "{{ item.Password | password_hash('sha512') }}"`
+- `password: "{{ Password | password_hash('sha512') }}"`
 
 # Loop
 ```
@@ -76,13 +79,15 @@ https://www.redhat.com/sysadmin/ansible-create-users-csv
 
 # handlers
 ```
- - name: Set max auth tries
+
+- name: Set max auth tries
     lineinfile:
       regexp: '^MaxAuthTries.*'
       line: MaxAuthTries 3
       path: "{{ config_path }}"
     notify: Restart the service
-  handlers:
+ 
+ handlers:
   - name: Restart the service
     service:
       name: sshd
@@ -210,8 +215,7 @@ https://www.redhat.com/sysadmin/automating-logical-volume-manager
         resizefs: true
         
 ```
-# vimrc
-`autocmd FileType yaml setlocal ai ts=2 sw=2 et`
+
 
 # Check Syntax
 `ansible-playbook --syntax-check site.yaml`
@@ -219,6 +223,7 @@ https://www.redhat.com/sysadmin/automating-logical-volume-manager
 
 # ansible.cfg
 - `cp /etc/ansible/ansible.cfg .`
+
 ```
 [defaults]
 remote_user = devops
@@ -313,7 +318,7 @@ more Q5.yaml
 # 7. rhel-system-roles
 
 - `sudo yum install rhel-system-roles`
-- read /usr/share/ansible/roles/rhel-system-roles.selinux
+- read /usr/share/ansible/roles/rhel-system-roles.selinux/README.md
 
 ### SELINUX
 ```
@@ -329,7 +334,7 @@ more Q5.yaml
 ```
 
 ### chrony
-- read /usr/share/ansible/roles/rhel-system-roles.timesync
+- read /usr/share/ansible/roles/rhel-system-roles.timesync/README.md
 ```
 ---
 - name: site
@@ -612,6 +617,42 @@ handlers:
 - always: Defines the tasks that will always run independently of the success or failure of tasks defined in the block and rescue clauses.
 
 # CH6
-- include_tasks, import_tasks, and import_playbook
+### include_tasks
 
- 
+```
+- name: Include the environment task file and set the variables
+  include_tasks: tasks/environment.yml
+  vars:
+    package: httpd
+    service: httpd
+```
+### import_tasks
+```
+- name: Import the firewall task file and set the variables
+  import_tasks: tasks/firewall.yml
+  vars:
+    firewall_pkg: firewalld
+    firewall_svc: firewalld
+    rule:
+- http - https
+````
+### import_playbook
+```
+- name: Import test play file and set the variable
+  import_playbook: plays/test.yml
+  vars:
+    url: 'http://servera.lab.example.com
+    
+```
+
+### ROLES
+```
+---
+- hosts: remote.example.com
+  roles:
+    - role: role1
+    - { role: role2, var1: val1, var2: val2 
+```
+
+### pre_tasks, roles, tasks, post_tasks
+
