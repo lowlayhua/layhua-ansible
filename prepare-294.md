@@ -228,6 +228,8 @@ https://www.redhat.com/sysadmin/automating-logical-volume-manager
 [defaults]
 remote_user = devops
 inventory = ./inventory
+roles_path    = ~/.ansible/roles:/usr/share/ansible/roles:./roles
+host_key_checking = False
 [privilege_escalation]
 become_user = root
 become_method = sudo
