@@ -3,6 +3,7 @@
 - https://github.com/DevSecOpsGuy/EX294-1
 - https://www.lisenet.com/2019/ansible-sample-exam-for-ex294/
 
+
 # .bash_profile
 ```
 alias ap='ansible-playbook'
@@ -609,6 +610,8 @@ handlers:
 - block: Defines the main tasks to run
 - rescue: Defines the tasks to run if the tasks defined in the block clause fail.
 - always: Defines the tasks that will always run independently of the success or failure of tasks defined in the block and rescue clauses.
-- 
+
+# CH6
+- include_tasks, import_tasks, and import_playbook
 
  
