@@ -1,12 +1,18 @@
-# Find timezone
-- `timedatectl list-timezones`
- 
+# Q2
+```
+#!/bin/bash
+ansible all -m yum_repository -a 'baseurl=http://hqdev1.tekneed.com/rpm/AppStream description="RHEL 8 Appstream" name=RHEL_Appstream enabled=1 gpgcheck=1 gpgkey=http://hqdev1.tekneed.com/rpm/RPM-GPG-KEY-redhat-release file=rhel'
+
+ansible all -m yum_repository -a 'baseurl=http://hqdev1.tekneed.com/rpm/BaseOS description="RHEL 8 BaseOS" name=RHEL_BaseOS enabled=1 gpgcheck=1 gpgkey=http://hqdev1.tekneed.com/rpm/RPM-GPG-KEY-redhat-release file=rhel'
+```
+
+# ----
 # Recommend to Practise
 - https://github.com/mateuszstompor/rhce-ex294-exam/tree/main/questions
 - https://github.com/DevSecOpsGuy/EX294-1
 - https://www.lisenet.com/2019/ansible-sample-exam-for-ex294/
 
-# vimrc
+# .vimrc
 `autocmd FileType yaml setlocal ai ts=2 sw=2 et`
 
 # .bash_profile
@@ -36,17 +42,7 @@ internetweb
 - command line: `ansible-playbook main.yml -e "package=apache"`
 - `vars:`
 - `vars_files:`
-```
-users:
-  bjones:
-    first_name: Bob
-    last_name: Jones
-    home_dir: /users/bjones
-  acook:
-    first_name: Anne
-    last_name: Cook
-    home_dir: /users/acook
-```
+
 
 # user
 - `password: "{{ Password | password_hash('sha512') }}"`
@@ -65,15 +61,7 @@ users:
 groups: root
 ```
 # ansible-doc lineinfile
-```
-- name: Validate the sudoers file before saving
-  ansible.builtin.lineinfile:
-    path: /etc/sudoers
-    state: present
-    regexp: '^%ADMIN ALL='
-    line: '%ADMIN ALL=(ALL) NOPASSWD: ALL'
-    validate: /usr/sbin/visudo -cf %s
-```
+
 # TO TRY
 https://www.redhat.com/sysadmin/ansible-create-users-csv
 
