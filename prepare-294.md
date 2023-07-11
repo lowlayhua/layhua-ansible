@@ -291,7 +291,8 @@ more Q5.yaml
   roles:
     - /usr/share/ansible/roles/rhel-system-roles.timesync
 ```
-
+- `ansible all -a "timedatectl"`
+- chronyc sources
 
 # 8. packages.yaml
 # 9. webcontent
