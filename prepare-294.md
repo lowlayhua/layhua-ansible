@@ -1,4 +1,21 @@
-# Q2
+# Prepare
+## .vimrc
+- `autocmd FileType yaml setlocal ai ts=2 sw=2 et`
+
+# TO remember
+
+- `ansible-vault encrypt user_password.yaml vault-password-file=secret.txt`
+- `password: "{{ Password | password_hash('sha512') }}"`
+
+
+## .bash_profile
+```
+alias ap='ansible-playbook'
+alias aps='ansible-playbook --syntax-check'
+alias av='ansible-vault'
+alias adoc='ansible-doc'
+
+# Section 1: Adhoc commands
 ```
 #!/bin/bash
 ansible all -m yum_repository -a 'baseurl=http://hqdev1.tekneed.com/rpm/AppStream description="RHEL 8 Appstream" name=RHEL_Appstream enabled=1 gpgcheck=1 gpgkey=http://hqdev1.tekneed.com/rpm/RPM-GPG-KEY-redhat-release file=rhel'
@@ -12,40 +29,10 @@ ansible all -m yum_repository -a 'baseurl=http://hqdev1.tekneed.com/rpm/BaseOS d
 - https://github.com/DevSecOpsGuy/EX294-1
 - https://www.lisenet.com/2019/ansible-sample-exam-for-ex294/
 
-# .vimrc
-`autocmd FileType yaml setlocal ai ts=2 sw=2 et`
-
-# .bash_profile
-```
-alias ap='ansible-playbook'
-alias aps='ansible-playbook --syntax-check'
-alias av='ansible-vault'
-alias adoc='ansible-doc'
-```
-# TO remember
-```
-file:
-  setype: httpd_sys_content_t
-  setype: etc_t
-  
-- import_playbook: ansible-vsftpd.yml
- ```
-# Inventory
-```
-[web:children]
-intranetweb
-internetweb
-```
-# Variables
-- host_vars
-- group_vars
-- command line: `ansible-playbook main.yml -e "package=apache"`
-- `vars:`
-- `vars_files:`
 
 
-# user
-- `password: "{{ Password | password_hash('sha512') }}"`
+
+
 
 # Loop
 ```
@@ -307,8 +294,9 @@ more Q5.yaml
 
 # 7. rhel-system-roles
 
-- `sudo yum install rhel-system-roles`
+- `sudo dnf install rhel-system-roles`
 - read /usr/share/ansible/roles/rhel-system-roles.selinux/README.md
+- /usr/share/ansible/roles/rhel-system-roles.timesync/README.md
 
 ### SELINUX
 ```
@@ -324,7 +312,7 @@ more Q5.yaml
 ```
 
 ### chrony
-- read /usr/share/ansible/roles/rhel-system-roles.timesync/README.md
+
 ```
 ---
 - name: site
@@ -459,7 +447,7 @@ more Q5.yaml
  ```
  # when
  ```
- - name: Configure sysclt para
+ - name: Configure sysctl para
   hosts: jump
   vars:
     ram_mb: 512
