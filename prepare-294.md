@@ -9,7 +9,6 @@
 
 
 ## .bash_profile
-```
 alias ap='ansible-playbook'
 alias aps='ansible-playbook --syntax-check'
 alias av='ansible-vault'
@@ -28,11 +27,7 @@ ansible all -m yum_repository -a 'baseurl=http://hqdev1.tekneed.com/rpm/BaseOS d
 - https://github.com/mateuszstompor/rhce-ex294-exam/tree/main/questions
 - https://github.com/DevSecOpsGuy/EX294-1
 - https://www.lisenet.com/2019/ansible-sample-exam-for-ex294/
-
-
-
-
-
+- https://www.redhat.com/sysadmin/ansible-create-users-csv
 
 # Loop
 ```
@@ -45,37 +40,15 @@ ansible all -m yum_repository -a 'baseurl=http://hqdev1.tekneed.com/rpm/BaseOS d
     - name: jane
       groups: wheel
     - name: joe
-groups: root
-```
-# ansible-doc lineinfile
-
-# TO TRY
-https://www.redhat.com/sysadmin/ansible-create-users-csv
-
-# handlers
+      groups: root
 ```
 
-- name: Set max auth tries
-    lineinfile:
-      regexp: '^MaxAuthTries.*'
-      line: MaxAuthTries 3
-      path: "{{ config_path }}"
-    notify: Restart the service
- 
- handlers:
-  - name: Restart the service
-    service:
-      name: sshd
-      state: restarted
 ```
 # Vault
 https://tekneed.com/managing-ansible-secrets-with-ansible-vault-ex294/
-### Bypass
-- `ansible-playbook site.yml --vault-password-file ~/.vault_pass.txt`
+
 - `ansible-vault create vault.yaml --vault-password-file=secret.txt`
-- `ansible-playbook site.yml --ask-vault-pass`
-- `ansible-vault encrypt vars/database_users.yml --vault-id @secrets/database_users_password`
-- `ansible-playbook --vault-id one@prompt site.yaml`
+- `ansible-playbook site.yml --vault-password-file ~/.vault_pass.txt`
 
 
 # ansible-doc
@@ -100,21 +73,7 @@ https://tekneed.com/managing-ansible-secrets-with-ansible-vault-ex294/
 - synchronize
 - sefcontext
 
-# File selinux
-```
-- name: SELinux type is set to samba_share_t
-  file:
-    path: /path/to/samba_file
-    setype: samba_share_t
-```
-- `ls -Z samba_file`
-```
-- name: SELinux type is persistently set to samba_share_t
-  sefcontext:
-    target: /path/to/samba_file
-    setype: samba_share_t
-    state: present
-```
+
 
 # LVM 
 https://www.redhat.com/sysadmin/automating-logical-volume-manager
@@ -311,26 +270,29 @@ more Q5.yaml
     
 ```
 
-### chrony
+### timesync
 
 ```
 ---
-- name: site
+- name: timesync
   hosts: localhost
   become: yes
   vars:
     timesync_ntp_servers:
       - hostname: ntp2.singnet.com.sg
         iburst: true
+    timezone: Asia/Singapore
+
+  tasks:
+    - name: Set Timezone
+      timezone:
+        name: "{{ timezone }}"
+
   roles:
-    - rhel-system-roles.timesync
+    - /usr/share/ansible/roles/rhel-system-roles.timesync
 ```
-# Timezone
-```
-- name: Set timezone to singapore
-  timezone:
-    name: Asia/Singapore
-```
+
+
 # 8. packages.yaml
 # 9. webcontent
 ```
