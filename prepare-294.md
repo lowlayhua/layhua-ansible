@@ -43,7 +43,6 @@ ansible all -m yum_repository -a 'baseurl=http://hqdev1.tekneed.com/rpm/BaseOS d
       groups: root
 ```
 
-```
 # Vault
 https://tekneed.com/managing-ansible-secrets-with-ansible-vault-ex294/
 
