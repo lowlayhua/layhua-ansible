@@ -197,9 +197,10 @@ enabled=no"' -b
 ### hosts.j2
 - `{{ ansible_facts['default_ipv4']['address'] }}`
 ```
-{% for host in groups['all'] %}
-{{ hostvars[host]['ansible_facts']['default_ipv4']['address'] }} {{ hostvars[host]['ansible_facts']['fqdn'] }} {{ hostvars[host]['ansible_facts']['hostname'] }}
+{% for host in groups['all']  %}
+{{ hostvars[host]['ansible_default_ipv4']['address'] }} {{ hostvars[host]['ansible_fqdn'] }} {{ hostvars[host]['ansible_hostname'] }}
 {% endfor %}
+
 ```
 ### hosts.yaml
 ```
