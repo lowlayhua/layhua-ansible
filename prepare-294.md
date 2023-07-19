@@ -169,10 +169,7 @@ become_user = root
 become_method = sudo
 become = true
 ```
-- copy from /etc/ansible.cfg 
-- `ansible-config list`
-- `ansible-config view`
-- `ansible-doc -l | grep line`
+
 
 # adhoc.sh
 ```
