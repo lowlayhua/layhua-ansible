@@ -5,7 +5,7 @@
 # TO remember
 
 - `ansible-vault encrypt user_password.yaml vault-password-file=secret.txt`
-- `password: "{{ Password | password_hash('sha512') }}"`
+- `password: "{{ password | password_hash('sha512') }}"`
 
 
 ## .bash_profile
@@ -29,20 +29,6 @@ ansible all -m yum_repository -a 'baseurl=http://hqdev1.tekneed.com/rpm/BaseOS d
 - https://github.com/DevSecOpsGuy/EX294-1
 - https://www.lisenet.com/2019/ansible-sample-exam-for-ex294/
 - https://www.redhat.com/sysadmin/ansible-create-users-csv
-
-# Loop
-```
-- name: Users exist and are in the correct groups
-  user:
-    name: "{{ item.name }}"
-    state: present
-    groups: "{{ item.groups }}"
-  loop:
-    - name: jane
-      groups: wheel
-    - name: joe
-      groups: root
-```
 
 # Vault
 https://tekneed.com/managing-ansible-secrets-with-ansible-vault-ex294/
@@ -165,22 +151,9 @@ inventory = ./inventory
 roles_path    = ~/.ansible/roles:/usr/share/ansible/roles:./roles
 host_key_checking = False
 [privilege_escalation]
-become_user = root
-become_method = sudo
 become = true
 ```
 
-
-# adhoc.sh
-```
-#!/bin/bash
-ansible localhost -m yum_repository -a 'name="epel"
-description="EPEL YUM repo"
-baseurl="https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
-gpgkey=no
-enabled=no"' -b
-
-```
 # requirements.yml
 ```
 ---
@@ -193,7 +166,6 @@ enabled=no"' -b
 - `ansible-galaxy init apache`
 
 ### hosts.j2
-- `{{ ansible_facts['default_ipv4']['address'] }}`
 ```
 {% for host in groups['all']  %}
 {{ hostvars[host]['ansible_default_ipv4']['address'] }} {{ hostvars[host]['ansible_fqdn'] }} {{ hostvars[host]['ansible_hostname'] }}
@@ -239,8 +211,9 @@ My host is {{ ansible_hostname }} on {{ ansible_default_ipv4.address }}
     dest: /var/www/html/index.html
     
 ```
+# 5. Role 
 ```
-more Q5.yaml
+
 ---
 - name: dev
   hosts: dev
@@ -253,7 +226,7 @@ more Q5.yaml
 
 - `sudo dnf install rhel-system-roles`
 - read /usr/share/ansible/roles/rhel-system-roles.selinux/README.md
-- /usr/share/ansible/roles/rhel-system-roles.timesync/README.md
+- read /usr/share/ansible/roles/rhel-system-roles.timesync/README.md
 
 ### SELINUX
 ```
@@ -264,7 +237,7 @@ more Q5.yaml
   vars:
     - selinux_state: enforcing
   roles:
-    - rhel-system-roles.selinux
+    - /usr/share/ansible/roles/rhel-system-roles.selinux
     
 ```
 
@@ -325,20 +298,7 @@ more Q5.yaml
         state: link
  ```
 # 10. hwreport.yaml
-```
----
-- name: copy
-  copy:
-    dest: /tmp/hwreport2.txt
-    content: |
-      #hwreport
-      HOSTNAME={{ ansible_hostname }}
-      MEMORY={{ ansible_memtotal_mb }}
-      BIOS={{ ansible_bios_version }}
-      CPU={{ ansible_processor[2] }}
-      DISK0={{ ansible_devices.xvda.size }}
-#      DISK1={{ ansible_devices['nvme1n1']['size'] }}
-#      DISK1={{ ansible_devices.nvme1n1.size }}
+
 ```
 
 # hwreport-line.yaml
