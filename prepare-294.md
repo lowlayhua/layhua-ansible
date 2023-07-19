@@ -9,11 +9,12 @@
 
 
 ## .bash_profile
+```
 alias ap='ansible-playbook'
 alias aps='ansible-playbook --syntax-check'
 alias av='ansible-vault'
 alias adoc='ansible-doc'
-
+```
 # Section 1: Adhoc commands
 ```
 #!/bin/bash
