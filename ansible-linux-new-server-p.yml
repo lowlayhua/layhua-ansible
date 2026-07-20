@@ -1,0 +1,225 @@
+---
+- name: Complete Linux Provisioning, Domain Join, Security Agent Activations
+  hosts: all
+  become: true
+  vars:
+    # --- System & Network Vars ---
+    linuxRepoIp: "YOUR_REPO_IP_HERE"
+    newHostname: "YOUR_HOSTNAME_HERE"
+    
+    # --- CloudWatch Agent Vars ---
+    CwAgentConfigParameterStoreName: "YOUR_CW_PARAM_NAME"
+    
+    # --- Active Directory Vars ---
+    domainName: "YOUR_DOMAIN_HERE"
+    secretArn: "YOUR_SECRET_ARN_HERE"
+
+    # --- Trend Micro Cloud One Vars ---
+    trend_dsm_proxy: "dsm_proxy://cloudone.ap-southeast-1.amazonaws.com:3128/"
+    trend_relay_proxy: "relay_proxy://cloudone.ap-southeast-1.amazonaws.com:3128/"
+    trend_dsm_url: "dsm://agents.workload.sg-1.cloudone.trendmicro.com:443/"
+    trend_tenant_id: ""
+    trend_token: ""
+    trend_policy_id: "35"
+
+    # --- Tenable Nessus Agent Vars ---
+    nessus_key: ""
+    nessus_groups: ""
+    nessus_host: "X.X.X.X"
+    nessus_port: "8834"
+
+  tasks:
+    # 1. TIMEZONE & HOSTNAME
+    - name: Set system timezone to Asia/Singapore
+      community.general.timezone:
+        name: Asia/Singapore
+
+    - name: Set system hostname
+      ansible.builtin.hostname:
+        name: "{{ newHostname }}"
+
+    # 2. AWS CLI V2 INSTALLATION
+    - name: Check if AWS CLI is already installed
+      ansible.builtin.command: aws --version
+      register: aws_check
+      ignore_errors: true
+      changed_when: false
+
+    - name: Install unzip package
+      ansible.builtin.dnf:
+        name: unzip
+        state: present
+      when: aws_check.failed
+
+    - name: Download AWS CLI v2 zip package
+      ansible.builtin.get_url:
+        url: "http://{{ linuxRepoIp }}/awscli/awscliv2.zip"
+        dest: "/tmp/awscliv2.zip"
+        mode: '0644'
+      when: aws_check.failed
+
+    - name: Unarchive AWS CLI zip file
+      ansible.builtin.unarchive:
+        src: "/tmp/awscliv2.zip"
+        dest: "/tmp"
+        remote_src: true
+      when: aws_check.failed
+
+    - name: Run AWS CLI installer
+      ansible.builtin.command: "/tmp/aws/install"
+      when: aws_check.failed
+
+    - name: Clean up downloaded files
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "/tmp/awscliv2.zip"
+        - "/tmp/aws"
+      when: aws_check.failed
+
+    # 3. CLOUDWATCH AGENT CONFIGURATION
+    - name: Fetch and apply CloudWatch Agent configuration from SSM
+      ansible.builtin.command: >
+        /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl 
+        -a fetch-config -m ec2 -s -c ssm:{{ CwAgentConfigParameterStoreName }}
+
+    # 4. AD DOMAIN JOIN PREPARATION & PACKAGE INSTALLATION
+    - name: Install Active Directory required packages
+      ansible.builtin.dnf:
+        name:
+          - sssd
+          - realmd
+          - krb5-workstation
+          - samba-common-tools
+          - oddjob
+          - oddjob-mkhomedir
+          - adcli
+          - jq
+        state: present
+
+    # 5. ACTIVE DIRECTORY DOMAIN JOIN
+    - name: Check if the machine is already joined to the domain
+      ansible.builtin.command: realm list
+      register: realm_list
+      changed_when: false
+
+    - name: Process Domain Join
+      when: domainName not in realm_list.stdout
+      block:
+        - name: Retrieve credentials from AWS Secrets Manager
+          ansible.builtin.command: >
+            aws secretsmanager get-secret-value 
+            --secret-id "{{ secretArn }}" 
+            --query SecretString 
+            --output text
+          register: aws_secret_raw
+          until: aws_secret_raw.stdout != ""
+          retries: 10
+          delay: 5
+          changed_when: false
+
+        - name: Parse credentials from JSON
+          ansible.builtin.set_fact:
+            domain_user: "{{ aws_secret_raw.stdout | from_json | json_query('username') }}"
+            domain_pass: "{{ aws_secret_raw.stdout | from_json | json_query('password') }}"
+
+        - name: Join the Active Directory domain
+          ansible.builtin.shell: |
+            echo "{{ domain_pass }}" | realm join --user="{{ domain_user }}" {{ domainName }}
+          no_log: true
+
+    - name: Log domain status if already joined
+      ansible.builtin.debug:
+        msg: "{{ domainName }} Domain Already joined"
+      when: domainName in realm_list.stdout
+
+    # 6. CONFIGURATION FILE TUNING
+    - name: Configure SSSD settings
+      community.general.ini_file:
+        path: /etc/sssd/sssd.conf
+        section: "domain/{{ domainName }}"
+        option: "{{ item.option }}"
+        value: "{{ item.value }}"
+        backup: true
+        mode: '0600'
+      loop:
+        - { option: 'use_fully_qualified_names', value: 'False' }
+        - { option: 'fallback_homedir', value: '/home/%u' }
+        - { option: 'ad_gpo_access_control', value: 'permissive' }
+      notify: Restart SSSD
+
+    - name: Configure SSH Password Authentication
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '(?i)^[#\s]*PasswordAuthentication\s+'
+        line: 'PasswordAuthentication yes'
+        state: present
+        backup: true
+        validate: '/usr/sbin/sshd -t -f %s'
+      notify: Restart SSH
+
+    # 7. TREND MICRO ACTIVATION
+    - name: Check Trend Micro Agent status
+      ansible.builtin.command: /opt/ds_agent/dsa_query -c "GetAgentStatus"
+      register: dsa_status
+      ignore_errors: true
+      changed_when: false
+
+    - name: Configure and Activate Trend Micro Cloud One Agent
+      when: dsa_status.rc != 0 or "STATUS_ACTIVATED" not in dsa_status.stdout
+      block:
+        - name: Reset Deep Security Agent configuration
+          ansible.builtin.command: /opt/ds_agent/dsa_control -r
+
+        - name: Set Manager Proxy
+          ansible.builtin.command: "/opt/ds_agent/dsa_control -x {{ trend_dsm_proxy }}"
+
+        - name: Set Relay Proxy
+          ansible.builtin.command: "/opt/ds_agent/dsa_control -y {{ trend_relay_proxy }}"
+
+        - name: Activate Agent
+          ansible.builtin.command: >
+            /opt/ds_agent/dsa_control -a {{ trend_dsm_url }}
+            "tenantID:{{ trend_tenant_id }}"
+            "token:{{ trend_token }}"
+            "policyid:{{ trend_policy_id }}"
+
+    # 8. NESSUS AGENT ACTIVATION & CONFIGURATION
+    - name: Check Nessus Agent link status
+      ansible.builtin.command: /opt/nessus_agent/sbin/nessuscli agent status
+      register: nessus_status
+      ignore_errors: true
+      changed_when: false
+
+    - name: Link and Configure Nessus Agent
+      when: nessus_status.rc != 0 or "Not linked to a manager" in nessus_status.stdout or "Linked to: None" in nessus_status.stdout
+      block:
+        - name: Link Nessus Agent to manager
+          ansible.builtin.command: >
+            /opt/nessus_agent/sbin/nessuscli agent link 
+            --key={{ nessus_key }} 
+            --groups="{{ nessus_groups }}" 
+            --host={{ nessus_host }} 
+            --port={{ nessus_port }}
+          no_log: true # Protects your linking key from raw task output logs
+
+        - name: Set update_hostname setting
+          ansible.builtin.command: /opt/nessus_agent/sbin/nessuscli fix --set update_hostname="yes"
+          notify: Restart Nessus Agent
+
+  handlers:
+    - name: Restart SSSD
+      ansible.builtin.systemd:
+        name: sssd
+        state: restarted
+
+    - name: Restart SSH
+      ansible.builtin.systemd:
+        name: sshd
+        state: restarted
+
+    - name: Restart Nessus Agent
+      ansible.builtin.systemd:
+        name: nessusagent
+        state: restarted
